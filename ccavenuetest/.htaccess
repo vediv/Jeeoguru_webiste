@@ -1,0 +1,32 @@
+# Disable Directory Browsing
+Options All -Indexes
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^[^.]+\.[^.]+$
+RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [L,R=301]
+
+ErrorDocument 404 /biocine/error.php
+RewriteRule ^([^/.]+)/?$ $1.php
+RewriteRule ^watch/([a-zA-Z0-9_-]+)$ watch.php?entryID=$1
+RewriteRule ^liveTv/([a-zA-Z0-9_-]+)/$ liveTv.php?entryID=$1
+RewriteRule ^category/([a-zA-Z0-9_-]+)/$ view_type_4.php?$1
+RewriteRule ^channels/([a-zA-Z0-9_-]+)/$ channels.php?$1
+RewriteRule ^search/([a-zA-Z0-9_-]+)/$ search.php?searchtext=$1
+RewriteRule ^ondemand/([0-9]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ ondemand.php?subCatID=$1&CatName=$2&vcatID=$3
+RewriteRule ^ondemand/([0-9]+)/([a-zA-Z0-9_-]+)/$ ondemand.php?subCatID=$1&CatName=$2
+
+#DirectoryIndex channels.php
+# 1 WEEK
+<FilesMatch "\.(jpg|jpeg|png|gif|swf)$">
+#Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+
+# 3 HOUR
+<FilesMatch "\.(txt|xml|js|css)$">
+#Header set Cache-Control "max-age=10800"
+</FilesMatch>
+
+# NEVER CACHE - notice the extra directives
+<FilesMatch "\.(html|htm|php|cgi|pl)$">
+#Header set Cache-Control "max-age=0, private, no-store, no-cache, must-revalidate"
+</FilesMatch>
